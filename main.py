@@ -1,7 +1,9 @@
-from FtpMode import Conect
+import FtpMode
 
-conect1 = Conect('/debian/','ftp.debian.org','lucas','lds')
-print(conect1.bebe())
+conect1 = FtpMode.Conect('/debian/','ftp.us.debian.org','lucas','lds')
+conect1.NewConnection()
+print(conect1.readDir())
+print(conect1.moveDir('debian'))
 
 
 
