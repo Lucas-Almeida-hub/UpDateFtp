@@ -3,7 +3,7 @@ import os
 from  getpass import getpass
 from ftplib import FTP
 import json
-conexao=""
+
 
 class Conect:
     def __init__(self,nomeDir,host,user,passowor):
@@ -11,7 +11,7 @@ class Conect:
       self.host = host
       self.passowor=passowor
 
-    def NewConnection(self):
+    def __NewConnection(self):
         try:
           print("Conectando")
           conexao = FTP(self.host)
@@ -23,16 +23,23 @@ class Conect:
 
 
     def readDir(self):
-        try:
-          print(conexao.retrlines('LIST'))
-          conexao.quit()
-        except:
-          conexao.quit()
- 
+        conexao=self.__NewConnection()
+        return(conexao.retrlines('LIST'))#lista s arquivos do diretorio 
+        conexao.quit()
+      
     def moveDir(self,dir):
-        conexao.cwd(dir) 
+          self.dir =dir
+          conexao=self.__NewConnection()
+          conexao.cwd(self.dir)#caminhar ate o diretorio 
+          return(conexao.retrlines('LIST'))
+          conexao.quit()
+    
+    def dowlDir(self):
+        conexao=self.__NewConnection()
+        conexao.retrlines('LIST')
+        print(self.dir)
+        conexao.cwd(self.dir)
         print(conexao.retrlines('LIST'))
-        #conexao.quit()
-
-
-         #conexao.retrbinary('RETR'+file,local.write,1024)
+        with open('README', 'wb') as file:
+          print(conexao.retrbinary('RETR README', file.write))
+        conexao.quit()
