@@ -6,40 +6,45 @@ import json
 
 
 class Conect:
-    def __init__(self,nomeDir,host,user,passowor):
-      self.nomeDir=nomeDir
-      self.host = host
-      self.passowor=passowor
+
 
     def __NewConnection(self):
         try:
           print("Conectando")
+          print(self.host)
           conexao = FTP(self.host)
-          conexao.login()
+          print(conexao)
+          print(conexao.login())
           return(conexao)
         except (RuntimeError, TypeError, NameError):
           return (RuntimeError, TypeError, NameError)
-
+          
 
 
     def readDir(self):
-        conexao=self.__NewConnection()
-        return(conexao.retrlines('LIST'))#lista s arquivos do diretorio 
-        conexao.quit()
+        return(self.conexao.retrlines('LIST'))#lista s arquivos do diretorio 
+
       
-    def moveDir(self,dir):
-          self.dir =dir
-          conexao=self.__NewConnection()
-          conexao.cwd(self.dir)#caminhar ate o diretorio 
-          return(conexao.retrlines('LIST'))
-          conexao.quit()
+    def moveDir(self):
+          self.conexao.cwd(self.nomeDir)#caminhar ate o diretorio 
+          return(self.conexao.retrlines('LIST'))
+
     
     def dowlDir(self):
-        conexao=self.__NewConnection()
-        conexao.retrlines('LIST')
-        print(self.dir)
-        conexao.cwd(self.dir)
-        print(conexao.retrlines('LIST'))
+        self.conexao.cwd(self.nomeDir)
+        print(self.conexao.retrlines('LIST'))
         with open('README', 'wb') as file:
-          print(conexao.retrbinary('RETR README', file.write))
-        conexao.quit()
+          print(self.conexao.retrbinary('RETR README', file.write))
+        
+    
+    def closseConect(self):
+        self.conexao.quit()
+
+    def __init__(self,dados=[]):
+      print(dados[0])
+      self.nomeDir=dados[0]
+      self.host = dados[1]
+      self.passowor=dados[2]
+      self.conexao=self.__NewConnection()
+
+    
