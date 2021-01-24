@@ -1,4 +1,3 @@
-
 import os
 from  getpass import getpass
 from ftplib import FTP
@@ -15,7 +14,7 @@ class Conect:
           conexao = FTP(self.host)
           print(conexao)
           print(conexao.login())
-          return(conexao)
+          return (conexao)
         except (RuntimeError, TypeError, NameError):
           return (RuntimeError, TypeError, NameError)
           
@@ -30,10 +29,10 @@ class Conect:
           return(self.conexao.retrlines('LIST'))
 
     
-    def dowlDir(self):
+    def dowlDir(self,arquivo):
         self.conexao.cwd(self.nomeDir)
         print(self.conexao.retrlines('LIST'))
-        with open('README', 'wb') as file:
+        with open(arquivo, 'wb') as file:
           print(self.conexao.retrbinary('RETR README', file.write))
         
     
@@ -45,6 +44,6 @@ class Conect:
       self.nomeDir=dados[0]
       self.host = dados[1]
       self.passowor=dados[2]
-      self.conexao=self.__NewConnection()
-
-    
+      self.conexao = self.__NewConnection()
+      #self.conexao=self.__NewConnection()
+      #return self.__NewConnection()
