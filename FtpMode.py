@@ -33,7 +33,7 @@ class Conect:
         self.conexao.cwd(self.nomeDir)
         print(self.conexao.retrlines('LIST'))
         with open(arquivo, 'wb') as file:
-          print(self.conexao.retrbinary('RETR README', file.write))
+          print(self.conexao.retrbinary('RETR {}'.format(arquivo), file.write))
         
     
     def closseConect(self):
@@ -45,5 +45,4 @@ class Conect:
       self.host = dados[1]
       self.passowor=dados[2]
       self.conexao = self.__NewConnection()
-      #self.conexao=self.__NewConnection()
-      #return self.__NewConnection()
+
